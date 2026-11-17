@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>靈魂體驗藍圖解碼 | 生命能量校準</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Serif TC', serif;
+            background-color: #F7F5F0;
+            color: #4A4238;
+            background-image: 
+                linear-gradient(to right, rgba(210, 200, 185, 0.2) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(210, 200, 185, 0.2) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .zen-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #D2C8B9;
+            text-align: center;
+            font-size: 1.5rem;
+            color: #5C4B3A;
+            transition: all 0.3s ease;
+        }
+        
+        .zen-input:focus {
+            outline: none;
+            border-bottom: 1px solid #8C7A6B;
+            box-shadow: 0 1px 0 0 #8C7A6B;
+        }
+        
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .trigram-symbol {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            color: #8C7A6B;
+            letter-spacing: -4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 sm:p-8 relative selection:bg-[#E5DFD3] selection:text-[#4A4238]">
+
+    <main class="max-w-2xl w-full bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#E8E2D2] rounded-2xl relative z-10 overflow-hidden">
+        
+        <div class="h-1 w-full bg-gradient-to-r from-[#D2C8B9] via-[#8C7A6B] to-[#D2C8B9] opacity-70"></div>
+
+        <div class="p-8 sm:p-12">
+            <header class="text-center mb-10">
+                <h1 class="text-2xl sm:text-3xl font-medium tracking-widest text-[#5C4B3A] mb-3">靈魂體驗藍圖解碼</h1>
+                <p class="text-sm text-[#8C7A6B] tracking-wider opacity-80">請在靜心中，輸入宇宙賦予你的天地人定錨</p>
+            </header>
+
+            <div class="space-y-8 mb-10">
+                <div class="flex flex-col items-center">
+                    <label class="text-sm tracking-[0.2em] text-[#8C7A6B] mb-2">天之定錨 (第一組三位數)</label>
+                    <input type="number" id="num1" min="0" max="999" placeholder="000" class="zen-input w-32 pb-1 font-sans tracking-widest">
+                </div>
+                <div class="flex flex-col items-center">
+                    <label class="text-sm tracking-[0.2em] text-[#8C7A6B] mb-2">地之定錨 (第二組三位數)</label>
+                    <input type="number" id="num2" min="0" max="999" placeholder="000" class="zen-input w-32 pb-1 font-sans tracking-widest">
+                </div>
+                <div class="flex flex-col items-center">
+                    <label class="text-sm tracking-[0.2em] text-[#8C7A6B] mb-2">人之定錨 (第三組三位數)</label>
+                    <input type="number" id="num3" min="0" max="999" placeholder="000" class="zen-input w-32 pb-1 font-sans tracking-widest">
+                </div>
+            </div>
+
+            <div id="error-msg" class="text-center text-[#9E6A6A] text-sm tracking-wide mb-4 hidden opacity-0 transition-opacity duration-300">
+                請確保三組定錨皆已填寫，且為數字。
+            </div>
+
+            <div class="text-center">
+                <button onclick="decodeBlueprint()" class="px-8 py-3 bg-transparent border border-[#8C7A6B] text-[#8C7A6B] rounded-full hover:bg-[#8C7A6B] hover:text-white transition-colors duration-500 tracking-[0.2em] text-sm font-medium cursor-pointer focus:outline-none">
+                    解碼靈魂藍圖
+                </button>
+            </div>
+        </div>
+
+        <div id="result-section" class="hidden bg-[#FBF9F6] border-t border-[#E8E2D2] p-8 sm:p-12">
+            <div class="text-center flex flex-col items-center">
+                
+                <div class="mb-6 flex flex-col items-center justify-center">
+                    <div id="hexagram-symbol-upper" class="trigram-symbol font-sans">☰</div>
+                    <div id="hexagram-symbol-lower" class="trigram-symbol font-sans mt-[-8px]">☷</div>
+                </div>
+
+                <div class="text-sm tracking-widest text-[#8C7A6B] mb-2">
+                    上<span id="upper-name">天</span> / 下<span id="lower-name">地</span>
+                </div>
+                
+                <h2 class="text-3xl font-medium tracking-widest text-[#5C4B3A] mb-8">
+                    <span id="hexagram-name">天地否</span> ． <span id="line-name" class="text-[#8C7A6B]">初爻</span>
+                </h2>
+
+                <div class="relative">
+                    <div class="absolute -top-4 -left-4 text-4xl text-[#E8E2D2] opacity-50">「</div>
+                    <p id="interpretation-text" class="text-base sm:text-lg leading-relaxed text-[#4A4238] tracking-wide text-justify px-4">
+                        <!-- 大背景文字將動態插入 -->
+                    </p>
+                    <div class="absolute -bottom-6 -right-4 text-4xl text-[#E8E2D2] opacity-50">」</div>
+                </div>
+                
+                <div class="mt-12 p-6 sm:p-8 bg-white/60 rounded-xl border border-[#D2C8B9]/40 shadow-sm relative w-full text-left">
+                    <h3 class="text-sm font-bold text-[#8C7A6B] tracking-widest mb-3 text-center">◆ 爻位劇本 ◆</h3>
+                    <p id="yao-interpretation-text" class="text-sm sm:text-base leading-relaxed text-[#5C4B3A] tracking-wide text-justify">
+                        <!-- 爻位文字將動態插入 -->
+                    </p>
+                </div>
+
+                <div class="mt-8 text-xs text-[#A69B8F] tracking-widest text-center">
+                    （爻位標示著體驗切入的細微能量，請在靜心時細細體會）
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 必須將外部資料庫先載入，才能提供給下方的運算邏輯使用 -->
+    <script src="database.js"></script>
+
+    <script>
+        const trigrams = {
+            1: { symbol: '☰', nature: '天', name: '乾', lines: [1, 1, 1] },
+            2: { symbol: '☱', nature: '澤', name: '兌', lines: [1, 1, 0] },
+            3: { symbol: '☲', nature: '火', name: '離', lines: [1, 0, 1] },
+            4: { symbol: '☳', nature: '雷', name: '震', lines: [1, 0, 0] },
+            5: { symbol: '☴', nature: '風', name: '巽', lines: [0, 1, 1] },
+            6: { symbol: '☵', nature: '水', name: '坎', lines: [0, 1, 0] },
+            7: { symbol: '☶', nature: '山', name: '艮', lines: [0, 0, 1] },
+            0: { symbol: '☷', nature: '地', name: '坤', lines: [0, 0, 0] }
+        };
+
+        const yaoStageData = {
+            1: "【向內安頓】這是一個扎根的階段，你被要求先照顧好內在的冰山底層，不急於向外展現，而是累積純粹的初發心。",
+            2: "【嶄露與平衡】這是一個得中的位置，你被要求在自我與環境之間找到動態平衡，帶著柔和或堅定的力量去回應初次的挑戰。",
+            3: "【跨越與試煉】處於動盪與交界。你這輩子要在這個課題中反覆經歷試錯，學習在挫折與焦慮中不失去本心，鍛鍊極致的韌性。",
+            4: "【近高層的修煉】這是關於界線與謹慎的體驗。學習如何在靠近核心資源時保持清明，懂得進退拿捏與借力使力。",
+            5: "【核心與圓滿】能量的最佳發揮處。體驗成為核心、發揮最大影響力，學習用寬廣的格局去包容並成就整個系統。",
+            0: "【收官與轉化】發展到極致，即將變革。這是一場「放下」的修煉。體驗極致的臣服，將「有為」轉化為「無為的造境」。"
+        };
+
+        const hexagramData = {
+            "1_1": { name: "乾為天", desc: "這代表這個靈魂這輩子的大背景是來體驗「純粹的創造」——不依賴外在條件，由內而外散發源源不絕的開創力。這是一場學習成為自身生命主宰，展現無畏與純粹意志的旅程。" },
+            "0_0": { name: "坤為地", desc: "這意味著靈魂這輩子來體驗「無條件的承載與包容」——像大地一樣孕育萬物而不居功。這是一場在柔軟、退讓與默默支持中，展現最深沉力量的旅程。" },
+            "6_4": { name: "水雷屯", desc: "這個靈魂這輩子來體驗「草創的堅韌」——在迷茫與困境中破土而出。這是一場學習在充滿未知與挑戰的環境裡，積蓄能量、不輕言放棄的扎根之旅。" },
+            "7_6": { name: "山水蒙", desc: "這代表靈魂這輩子來體驗「啟蒙與覺醒」——在混沌與無知中尋找智慧的光芒。這是一場關於教與學、打破內在迷惘，最終看見事物真實面貌的旅程。" },
+            "6_1": { name: "水天需", desc: "這個靈魂來體驗「等待的智慧」——在時機未到時安然自處。這是一場學習在焦慮中保持從容，不盲目衝撞，讓內在能量在靜待中發酵的旅程。" },
+            "1_6": { name: "天水訟", desc: "這意味著靈魂這輩子來體驗「界線與衝突」——在矛盾中尋求平衡。這是一場學習如何面對外在的對立，並在不妥協自身原則與不傷害他人之間，找到最高和解點的旅程。" },
+            "0_6": { name: "地水師", desc: "這個靈魂來體驗「紀律與領導」——在混亂中建立秩序。這是一場學習如何統御內在的繁雜心緒，並在群體中承擔責任、帶領他人前行的將帥之旅。" },
+            "6_0": { name: "水地比", desc: "這代表靈魂這輩子來體驗「親密與依附」——人與人之間的深度信任與連結。這是一場學習敞開心胸，尋找靈魂同伴，並體驗互相扶持與歸屬感的旅程。" },
+            "5_1": { name: "風天小畜", desc: "這個靈魂來體驗「微小的累積」——在巨大能量爆發前的細膩醞釀。這是一場學習耐心與柔韌，用漸進的方式去引導剛強，體驗滴水穿石之美的旅程。" },
+            "1_2": { name: "天澤履", desc: "這意味著靈魂這輩子來體驗「實踐與步履」——在充滿威壓的環境中找到安全的行走方式。這是一場學習謹言慎行、依循禮法，用不卑不亢的態度走出自我道路的旅程。" },
+            "0_1": { name: "地天泰", desc: "這個靈魂來體驗「極致的通達與交融」——內在與外在、理想與現實的完美契合。這是一場享受順流、學習在豐盛與和諧中與世界共舞的旅程。" },
+            "1_0": { name: "天地否", desc: "這代表靈魂這輩子來體驗「閉塞與堅守」——在外界環境完全不予回應時的自我安頓。這是一場學習在低谷中保持內在的光明，不隨波逐流的孤獨修煉。" },
+            "1_3": { name: "天火同人", desc: "這個靈魂來體驗「無私的結盟」——打破藩籬，與志同道合者共創願景。這是一場學習超越個人利益，在群體的共鳴中尋找生命價值的旅程。" },
+            "3_1": { name: "火天大有", desc: "這意味著靈魂這輩子來體驗「極致的豐盛」——擁有巨大的資源與能量。這是一場學習如何成為光的源頭，將自身擁有的智慧與財富無私地分享給世界的旅程。" },
+            "0_7": { name: "地山謙", desc: "這個靈魂來體驗「真實的謙卑」——擁有實力卻不張揚。這是一場學習削去自滿、填補不足，在極致的平衡中體會「無我」之美的旅程。" },
+            "4_0": { name: "雷地豫", desc: "這代表靈魂這輩子來體驗「喜樂與順勢」——乘著時代或環境的浪潮順勢而起。這是一場學習如何在歡樂與順境中保持覺察，不讓自己迷失於安逸的旅程。" },
+            "2_4": { name: "澤雷隨", desc: "這個靈魂來體驗「順應與臣服」——放棄頭腦的執著，跟隨生命的流動。這是一場學習放下控制欲，在每一個當下隨遇而安、與外在環境和諧共振的旅程。" },
+            "7_5": { name: "山風蠱", desc: "這意味著靈魂這輩子來體驗「療癒與重建」——面對並清理過去遺留下來的爛攤子或原生傷痛。這是一場直面內在陰影，從腐敗中重新培育出新生命的蛻變之旅。" },
+            "0_2": { name: "地澤臨", desc: "這個靈魂來體驗「親臨與督導」——帶著喜悅與包容去引導他人。這是一場學習如何以長者的姿態、溫暖的關懷去照見世間，體驗責任與愛心交織的旅程。" },
+            "5_0": { name: "風地觀", desc: "這代表靈魂這輩子來體驗「洞察與仰望」——拉高視角，成為世間的觀察者。這是一場學習不急於介入，而是透過靜觀萬物生滅，來獲得深層智慧與啟發的旅程。" },
+            "3_4": { name: "火雷噬嗑", desc: "這個靈魂來體驗「磨合與決斷」——在充滿阻礙的人際或事物中建立規矩。這是一場學習明辨是非，用果斷的行動去突破僵局、剔除生命中不適合之物的旅程。" },
+            "7_3": { name: "山火賁", desc: "這意味著靈魂這輩子來體驗「形式與本質」——探討外在的美與內在的真。這是一場學習欣賞生命中的儀式感，並最終看透繁華、回歸質樸本真的旅程。" },
+            "7_0": { name: "山地剝", desc: "這個靈魂來體驗「剝落與放下」——面對生命中必然的失去與瓦解。這是一場極其深刻的修煉，學習在一切外在依附被抽離時，依然能安住於內在核心的旅程。" },
+            "0_4": { name: "地雷復", desc: "這代表靈魂這輩子來體驗「重生與回歸」——在歷經無盡的黑暗後，迎來生命的新芽。這是一場傾聽內在幽微的召喚，跟隨那最初的一點光明，找回真實自我的旅程。" },
+            "1_4": { name: "天雷无妄", desc: "這代表你這輩子來走一遭，大背景是要體驗「真實」——褪去所有外在的偽裝，不帶功利與預期，憑藉純粹的本心去行動。這是一場回歸本源的旅程。" },
+            "7_1": { name: "山天大畜", desc: "這個靈魂來體驗「大積累與厚積薄發」——吸收天地間浩瀚的知識與能量。這是一場學習如何將龐大的內在力量暫時收斂，等待最佳時機再釋放的修煉。" },
+            "7_4": { name: "山雷頤", desc: "這意味著靈魂這輩子來體驗「滋育與養分」——探索什麼才是真正滋養自己與他人生命的東西。這是一場關於言語的節制、身心的餵養，以及建立健康能量迴圈的旅程。" },
+            "2_5": { name: "澤風大過", desc: "這個靈魂來體驗「越界與超常負載」——承擔超越常人極限的重任或面對極端的情境。這是一場學習在巨大的壓力下依然能獨立不懼、甚至打破常規來成就非凡的旅程。" },
+            "6_6": { name: "坎為水", desc: "這代表靈魂這輩子來體驗「歷險與深潛」——走入生命的深淵與恐懼。這不是災難，而是一場學習像水一樣柔軟，在重重阻礙中保持內在真誠、不斷尋找出路的靈魂試煉。" },
+            "3_3": { name: "離為火", desc: "這個靈魂來體驗「照耀與依附」——尋找正確的價值觀來寄託自身的熱情。這是一場學習如何讓自己的生命如火焰般綻放光芒，同時不至於燃燒殆盡，成為指引他人明燈的旅程。" },
+            "2_7": { name: "澤山咸", desc: "這意味著靈魂這輩子來體驗「感應與共鳴」——人與人之間最純粹、直覺的心靈觸動。這是一場學習敞開感官，沒有任何心機地去感知這個世界，體驗「心有靈犀」的旅程。" },
+            "4_5": { name: "雷風恆", desc: "這個靈魂來體驗「恆常與堅持」——在瞬息萬變的世界中找到永恆的價值。這是一場學習在平凡的日常中堅守初心，體驗時間積累所帶來的深厚底蘊的旅程。" },
+            "1_7": { name: "天山遯", desc: "這代表靈魂這輩子來體驗「退隱與抽離」——在局勢不利或功成名就時懂得急流勇退。這是一場學習放下對舞台的眷戀，回歸內在平靜，保全自身能量的智慧之旅。" },
+            "4_1": { name: "雷天大壯", desc: "這個靈魂來體驗「壯盛與節制」——擁有強大無匹的力量與動能。這是一場學習如何不濫用自身的優勢，將強大的能量收束在正道上，懂得「非禮弗履」的旅程。" },
+            "3_0": { name: "火地晉", desc: "這意味著靈魂這輩子來體驗「躍升與展現」——如日出東方般不斷自我晉升。這是一場學習如何在順境中坦蕩地展現自己的才華，並將光明帶給周遭的旅程。" },
+            "0_3": { name: "地火明夷", desc: "這個靈魂來體驗「暗夜守光」——在極度黑暗或被打壓的環境中生存。這是一場學習將智慧與光芒藏於內心，忍辱負重，在艱難時刻依然保持靈魂不滅的深刻修煉。" },
+            "5_3": { name: "風火家人", desc: "這代表靈魂這輩子來體驗「歸屬與內在秩序」——在親密關係與家庭中尋找定位。這是一場學習各司其職、以愛與溫暖建立堅固堡壘，體驗生命中最深切羈絆的旅程。" },
+            "3_2": { name: "火澤睽", desc: "這個靈魂來體驗「孤獨與求同存異」——面對人際間的隔閡與不理解。這是一場學習在截然不同的觀念中尋找交集，接納世界的多元，並在孤獨中看見獨特風景的旅程。" },
+            "6_7": { name: "水山蹇", desc: "這意味著靈魂這輩子來體驗「蹇滯與反求諸己」——面對外在無法跨越的巨大障礙。這是一場學習停下腳步、不再向外衝撞，轉而向內修煉德行與智慧的內省之旅。" },
+            "4_6": { name: "雷水解", desc: "這個靈魂來體驗「釋放與解脫」——從長期的壓力、恩怨或困境中掙脫。這是一場學習寬恕自己與他人，將累積的負面能量釋放，讓生命重新獲得輕盈與自由的旅程。" },
+            "7_2": { name: "山澤損", desc: "這代表靈魂這輩子來體驗「減損與奉獻」——心甘情願地放下自身的利益去成就大局。這是一場學習克制私慾，體會「吃虧就是占便宜」，在失去中獲得心靈昇華的旅程。" },
+            "5_4": { name: "風雷益", desc: "這個靈魂來體驗「增益與助人」——處於充滿機會與資源的順境。這是一場學習如何抓住時機，迅速擴張生命的廣度，並將獲得的豐盛去潤澤底層與他人的旅程。" },
+            "2_1": { name: "澤天夬", desc: "這意味著靈魂這輩子來體驗「果斷與決裂」——面對生命中必須割捨的腐敗與毒瘤。這是一場學習在關鍵時刻不畏強權、勇敢發聲，用極大的勇氣去斬斷糾葛的旅程。" },
+            "1_5": { name: "天風姤", desc: "這個靈魂來體驗「相遇與陰影」——生命中突如其來的緣分或誘惑。這是一場學習在短暫而強烈的吸引力中保持清明，辨識出什麼是考驗、什麼是真理的旅程。" },
+            "2_0": { name: "澤地萃", desc: "這代表靈魂這輩子來體驗「聚集與萃取」——成為人群或資源的匯聚中心。這是一場學習如何用真誠與德行去吸引他人，並在眾聲喧嘩中提煉出最高價值的旅程。" },
+            "0_5": { name: "地風升", desc: "這個靈魂來體驗「提升與積累」——如樹木般安靜而堅定地向上攀升。這是一場學習不急躁、不貪快，憑藉著腳踏實地的努力，一步步走向生命高峰的旅程。" },
+            "2_6": { name: "澤水困", desc: "這意味著靈魂這輩子來體驗「受困與淬鍊」——在才華不被認可、資源枯竭的絕境中考驗心志。這是一場學習在極度匱乏中依然能自得其樂，讓靈魂在壓力下淬鍊出鑽石般光芒的旅程。" },
+            "6_5": { name: "水風井", desc: "這個靈魂來體驗「源泉與無盡給予」——成為一口滋養眾生的深井。這是一場學習不斷深掘內在智慧，無論外界環境如何變遷，都能保持能量不枯竭並無私供給他人的旅程。" },
+            "2_3": { name: "澤火革", desc: "這代表靈魂這輩子來體驗「變革與蛻變」——徹底推翻舊有的模式與信念。這是一場充滿陣痛卻極具爆發力的旅程，學習像蛇蛻皮一樣，在毀滅舊我中迎來全新的生命形態。" },
+            "3_5": { name: "火風鼎", desc: "這個靈魂來體驗「穩重與鎔鑄」——建構全新的生命系統或價值觀。這是一場學習將不同的元素與人才匯聚一爐，提煉出足以傳世的智慧，展現穩固與權威的旅程。" },
+            "4_4": { name: "震為雷", desc: "這意味著靈魂這輩子來體驗「震撼與覺醒」——生命中充滿突發的變故與驚嚇。這是一場學習在劇烈動盪中保持內在冰山的穩定，將恐懼轉化為生命覺醒之動力的旅程。" },
+            "7_7": { name: "艮為山", desc: "這個靈魂來體驗「靜止與界線」——在喧囂的世界中尋找極致的定靜。這是一場學習知止，知道什麼時候該停下、知道自己與他人的邊界在哪裡，體驗「如如不動」的旅程。" },
+            "5_7": { name: "風山漸", desc: "這代表靈魂這輩子來體驗「漸進與秩序」——如大雁結陣飛行般依循自然的節奏。這是一場學習拒絕速成，在緩慢而優雅的步調中，體會每個生命階段獨特風景的旅程。" },
+            "4_2": { name: "雷澤歸妹", desc: "這個靈魂來體驗「錯位與隨遇而安」——處在一個身分不符、時機不對的尷尬境地。這是一場學習在無法掌控的命運中，放下對完美的執著，在殘缺與委屈中尋找內在圓滿的旅程。" },
+            "4_3": { name: "雷火豐", desc: "這意味著靈魂這輩子來體驗「巔峰與輝煌」——生命能量達到極致的繁華。這是一場學習在最高點看透盛極必衰的規律，不為輝煌所迷，並提早為日落做準備的智慧之旅。" },
+            "3_7": { name: "火山旅", desc: "這個靈魂來體驗「過客與探索」——如旅人般在世間流轉，沒有絕對的歸屬。這是一場學習放下對物質與人際的過度執念，保持心靈的輕盈，將一生視為一場精彩客串的旅程。" },
+            "5_5": { name: "巽為風", desc: "這代表靈魂這輩子來體驗「滲透與柔順」——不以強硬姿態對抗，而是像風一樣化解阻力。這是一場學習用最柔軟的溝通、最靈活的身段，潛移默化去影響整個系統的旅程。" },
+            "2_2": { name: "兌為澤", desc: "這意味著這個靈魂這輩子的大背景，是來體驗「人與人之間的連結與互動」。這是一場關於表達、溝通、以及如何在人群中找到共鳴，體驗生命中那些讓人感到快樂與愉悅的人事物的旅程。" },
+            "5_6": { name: "風水渙", desc: "這個靈魂來體驗「渙散與消融」——打破僵化的結構與封閉的心靈。這是一場學習用精神信仰或大愛，去化解群體間的隔閡與自身的執念，讓生命能量重新流動的旅程。" },
+            "6_2": { name: "水澤節", desc: "這意味著靈魂這輩子來體驗「節制與規律」——在無限的慾望中建立有限的制度。這是一場學習自律，明白「自由來自於界線」，在恰到好處的約束中體驗生命安穩的旅程。" },
+            "5_2": { name: "風澤中孚", desc: "這個靈魂來體驗「極致的誠信與共振」——用最純粹的真心去感動萬物。這是一場學習放下所有防備與虛假，相信「真誠」是宇宙間最強大魔法的心靈共鳴之旅。" },
+            "4_7": { name: "雷山小過", desc: "這代表靈魂這輩子來體驗「細節與謹慎」——在動盪或微小的格局中步步為營。這是一場學習不強出頭、專注於眼前的小事，用極度的細心與低姿態來度過生命險灘的旅程。" },
+            "6_3": { name: "水火既濟", desc: "這個靈魂來體驗「完成與守成」——一切都處於最佳狀態的完美平衡。這是一場學習在成功之後如何保持警覺，防止微小的裂痕破壞完美的格局，體驗「守成不易」的旅程。" },
+            "3_6": { name: "火水未濟", desc: "這個靈魂來體驗「未竟與無限可能」——生命永遠處於一個還未完成、正在過渡的狀態。這是一場學習接納遺憾，並在每一個結束中看見新起點，永遠對宇宙抱持希望與探索欲的無盡之旅。" }
+        };
+
+        function showError(show) {
+            const errorMsg = document.getElementById('error-msg');
+            if (show) {
+                errorMsg.classList.remove('hidden');
+                setTimeout(() => errorMsg.classList.remove('opacity-0'), 10);
+            } else {
+                errorMsg.classList.add('opacity-0');
+                setTimeout(() => errorMsg.classList.add('hidden'), 300);
+            }
+        }
+
+        function decodeBlueprint() {
+            const val1 = document.getElementById('num1').value;
+            const val2 = document.getElementById('num2').value;
+            const val3 = document.getElementById('num3').value;
+
+            if (val1 === '' || val2 === '' || val3 === '') {
+                showError(true);
+                return;
+            }
+
+            const num1 = parseInt(val1, 10);
+            const num2 = parseInt(val2, 10);
+            const num3 = parseInt(val3, 10);
+
+            if (isNaN(num1) || isNaN(num2) || isNaN(num3)) {
+                showError(true);
+                return;
+            }
+            showError(false);
+
+            const lowerIndex = num1 % 8;
+            const upperIndex = num2 % 8;
+            const lineIndex = num3 % 6;
+
+            const lowerTrigram = trigrams[lowerIndex];
+            const upperTrigram = trigrams[upperIndex];
+            
+            const hexagramLines = [...lowerTrigram.lines, ...upperTrigram.lines];
+            
+            const arrayIndex = (lineIndex === 0) ? 5 : (lineIndex - 1);
+            const isYang = hexagramLines[arrayIndex] === 1;
+
+            let lineName = "";
+            if (arrayIndex === 0) lineName = isYang ? "初九" : "初六";
+            else if (arrayIndex === 1) lineName = isYang ? "九二" : "六二";
+            else if (arrayIndex === 2) lineName = isYang ? "九三" : "六三";
+            else if (arrayIndex === 3) lineName = isYang ? "九四" : "六四";
+            else if (arrayIndex === 4) lineName = isYang ? "九五" : "六五";
+            else if (arrayIndex === 5) lineName = isYang ? "上九" : "上六";
+
+            const hexKey = `${upperIndex}_${lowerIndex}`;
+            const hexagramInfo = hexagramData[hexKey] || { name: "未知卦象", desc: "此卦象體驗文字尚在建構中，請靜心等待宇宙更新..." };
+
+            // 對接外部資料庫 384 爻
+            const actualLineNum = (lineIndex === 0) ? 6 : lineIndex; 
+            let yaoScript = yaoStageData[lineIndex];
+
+            if (typeof YAO_DATABASE !== 'undefined' && YAO_DATABASE[hexagramInfo.name] && YAO_DATABASE[hexagramInfo.name][actualLineNum]) {
+                const yaoData = YAO_DATABASE[hexagramInfo.name][actualLineNum];
+                yaoScript = `【${yaoData.theme}】\n\n${yaoData.text}`;
+            }
+
+            document.getElementById('hexagram-symbol-upper').innerText = upperTrigram.symbol;
+            document.getElementById('hexagram-symbol-lower').innerText = lowerTrigram.symbol;
+            document.getElementById('upper-name').innerText = upperTrigram.nature;
+            document.getElementById('lower-name').innerText = lowerTrigram.nature;
+            
+            document.getElementById('hexagram-name').innerText = hexagramInfo.name;
+            document.getElementById('line-name').innerText = lineName;
+            document.getElementById('interpretation-text').innerText = hexagramInfo.desc;
+            document.getElementById('yao-interpretation-text').innerText = yaoScript;
+
+            const resultSection = document.getElementById('result-section');
+            resultSection.classList.remove('hidden');
+            
+            resultSection.classList.remove('fade-in-up');
+            void resultSection.offsetWidth; 
+            resultSection.classList.add('fade-in-up');
+
+            setTimeout(() => {
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+    </script>
+</body>
+</html>
